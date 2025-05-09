@@ -1,62 +1,73 @@
 package de.pexora.core.status;
 
+import de.pexora.core.api.status.ModuleStatus;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Tracks the status of all modules in the system.
+ * Verfolgt den Status aller Module im System.
+ * Implementiert das StatusAPI-Interface aus dem API-Paket.
  */
-public class StatusAPI {
+public class StatusAPI implements de.pexora.core.api.status.StatusAPI {
 
     private final Map<String, Boolean> moduleStatus;
+    private final Map<String, ModuleStatus> moduleStatusObjects;
     
     public StatusAPI() {
         this.moduleStatus = new HashMap<>();
+        this.moduleStatusObjects = new HashMap<>();
     }
     
     /**
-     * Registers a module with its enabled status
+     * Registriert ein Modul mit seinem Aktivierungsstatus
      * 
-     * @param moduleName The name of the module
-     * @param enabled Whether the module is enabled
+     * @param moduleName Der Name des Moduls
+     * @param enabled Ob das Modul aktiviert ist
      */
+    @Override
     public void registerModule(String moduleName, boolean enabled) {
         moduleStatus.put(moduleName, enabled);
+        moduleStatusObjects.put(moduleName, new ModuleStatus(moduleName, enabled));
     }
     
     /**
-     * Unregisters a module
+     * Hebt die Registrierung eines Moduls auf
      * 
-     * @param moduleName The name of the module
+     * @param moduleName Der Name des Moduls
      */
+    @Override
     public void unregisterModule(String moduleName) {
         moduleStatus.remove(moduleName);
+        moduleStatusObjects.remove(moduleName);
     }
     
     /**
-     * Checks if a module is enabled
+     * Prüft, ob ein Modul aktiviert ist
      * 
-     * @param moduleName The name of the module
-     * @return Whether the module is enabled, or false if not found
+     * @param moduleName Der Name des Moduls
+     * @return Ob das Modul aktiviert ist, oder false wenn nicht gefunden
      */
+    @Override
     public boolean isModuleEnabled(String moduleName) {
         return moduleStatus.getOrDefault(moduleName, false);
     }
     
     /**
-     * Gets the status of all modules
+     * Gibt den Status aller Module zurück
      * 
-     * @return A map of module names to their enabled status
+     * @return Eine Map mit Modulnamen und ihrem Aktivierungsstatus
      */
+    @Override
     public Map<String, Boolean> getModuleStatus() {
         return new HashMap<>(moduleStatus);
     }
     
     /**
-     * Gets the count of enabled modules
+     * Gibt die Anzahl der aktivierten Module zurück
      * 
-     * @return The number of enabled modules
+     * @return Die Anzahl der aktivierten Module
      */
+    @Override
     public int getEnabledModuleCount() {
         int count = 0;
         for (boolean enabled : moduleStatus.values()) {
@@ -68,11 +79,23 @@ public class StatusAPI {
     }
     
     /**
-     * Gets the total count of registered modules
+     * Gibt die Gesamtanzahl der registrierten Module zurück
      * 
-     * @return The total number of modules
+     * @return Die Gesamtanzahl der Module
      */
+    @Override
     public int getTotalModuleCount() {
         return moduleStatus.size();
+    }
+    
+    /**
+     * Gibt ein ModuleStatus-Objekt für ein bestimmtes Modul zurück
+     * 
+     * @param moduleName Der Name des Moduls
+     * @return Das ModuleStatus-Objekt oder null, wenn nicht gefunden
+     */
+    @Override
+    public ModuleStatus getModuleStatusForModule(String moduleName) {
+        return moduleStatusObjects.get(moduleName);
     }
 }

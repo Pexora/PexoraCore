@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 
 /**
- * Handles the main PexoraCore command and its subcommands.
+ * Verarbeitet den Haupt-PexoraCore-Befehl und seine Unterbefehle.
  */
 public class PexoraCommand implements CommandExecutor {
 
@@ -24,20 +24,25 @@ public class PexoraCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // Check if the command is /pexora
-        if (!command.getName().equalsIgnoreCase("pexora")) {
+        // Prüfen, ob der Befehl /pexoracore ist
+        if (!command.getName().equalsIgnoreCase("pexoracore")) {
             return false;
         }
 
-        // Check permission
+        // Berechtigungen prüfen
         if (!sender.hasPermission("pexora.admin")) {
-            plugin.getMessageConfig().getMessage("error-command-permission");
+            Component message = plugin.getMessageConfig().getMessage("error-command-permission");
+            if (sender instanceof Player) {
+                AdventureUtil.sendMessage((Player) sender, message);
+            } else {
+                sender.sendMessage(AdventureUtil.toLegacy(message));
+            }
             return true;
         }
 
-        // Handle subcommands
+        // Unterbefehle verarbeiten
         if (args.length == 0) {
-            // No subcommand provided, show help
+            // Kein Unterbefehl angegeben, Hilfe anzeigen
             showHelp(sender);
             return true;
         }
@@ -54,7 +59,7 @@ public class PexoraCommand implements CommandExecutor {
                 showHelp(sender);
                 break;
             default:
-                // Unknown subcommand
+                // Unbekannter Unterbefehl
                 Component message = plugin.getMessageConfig().getMessage("error-invalid-command");
                 if (sender instanceof Player) {
                     AdventureUtil.sendMessage((Player) sender, message);
@@ -68,10 +73,10 @@ public class PexoraCommand implements CommandExecutor {
     }
 
     private void handleReload(CommandSender sender) {
-        // Reload the plugin
+        // Plugin neu laden
         plugin.reload();
         
-        // Send confirmation message
+        // Bestätigungsnachricht senden
         Component message = plugin.getMessageConfig().getMessage("plugin-reloaded");
         if (sender instanceof Player) {
             AdventureUtil.sendMessage((Player) sender, message);
@@ -81,24 +86,24 @@ public class PexoraCommand implements CommandExecutor {
     }
 
     private void handleStatus(CommandSender sender) {
-        // Get plugin version
+        // Plugin-Version abrufen
         String version = plugin.getDescription().getVersion();
         
-        // Get module status
+        // Modulstatus abrufen
         Map<String, Boolean> moduleStatus = plugin.getStatusAPI().getModuleStatus();
         int enabledCount = plugin.getStatusAPI().getEnabledModuleCount();
         int totalCount = plugin.getStatusAPI().getTotalModuleCount();
         
-        // Send header
+        // Header senden
         Component header = plugin.getMessageConfig().getMessage("status-header");
         Component versionInfo = plugin.getMessageConfig().getMessage("status-version", "version", version);
         Component moduleCountInfo = plugin.getMessageConfig().getMessage("status-modules", "count", enabledCount + "/" + totalCount);
         
-        // Send PlaceholderAPI status
-        String papiStatus = plugin.isPlaceholderApiAvailable() ? "§aInstalled" : "§cNot installed";
+        // PlaceholderAPI-Status senden
+        String papiStatus = plugin.isPlaceholderApiAvailable() ? "§aInstalliert" : "§cNicht installiert";
         Component papiInfo = plugin.getMessageConfig().getMessage("status-placeholderapi", "status", papiStatus);
         
-        // Send messages
+        // Nachrichten senden
         if (sender instanceof Player) {
             Player player = (Player) sender;
             AdventureUtil.sendMessage(player, header);
@@ -106,24 +111,24 @@ public class PexoraCommand implements CommandExecutor {
             AdventureUtil.sendMessage(player, moduleCountInfo);
             AdventureUtil.sendMessage(player, papiInfo);
             
-            // Send module list
+            // Modulliste senden
             for (Map.Entry<String, Boolean> entry : moduleStatus.entrySet()) {
-                String moduleStatusText = entry.getValue() ? "§aEnabled" : "§cDisabled";
+                String moduleStatusText = entry.getValue() ? "§aAktiviert" : "§cDeaktiviert";
                 Component moduleEntry = plugin.getMessageConfig().getMessage("status-module-entry", 
                         "module", entry.getKey(), 
                         "status", moduleStatusText);
                 AdventureUtil.sendMessage(player, moduleEntry);
             }
         } else {
-            // Console sender
+            // Konsolensender
             sender.sendMessage(AdventureUtil.toLegacy(header));
             sender.sendMessage(AdventureUtil.toLegacy(versionInfo));
             sender.sendMessage(AdventureUtil.toLegacy(moduleCountInfo));
             sender.sendMessage(AdventureUtil.toLegacy(papiInfo));
             
-            // Send module list
+            // Modulliste senden
             for (Map.Entry<String, Boolean> entry : moduleStatus.entrySet()) {
-                String moduleStatusText = entry.getValue() ? "Enabled" : "Disabled";
+                String moduleStatusText = entry.getValue() ? "Aktiviert" : "Deaktiviert";
                 Component moduleEntry = plugin.getMessageConfig().getMessage("status-module-entry", 
                         "module", entry.getKey(), 
                         "status", moduleStatusText);
@@ -133,13 +138,13 @@ public class PexoraCommand implements CommandExecutor {
     }
 
     private void showHelp(CommandSender sender) {
-        // Get messages
+        // Nachrichten abrufen
         Component header = plugin.getMessageConfig().getMessage("help-header");
         Component reloadHelp = plugin.getMessageConfig().getMessage("help-command-reload");
         Component statusHelp = plugin.getMessageConfig().getMessage("help-command-status");
         Component helpHelp = plugin.getMessageConfig().getMessage("help-command-help");
         
-        // Send messages
+        // Nachrichten senden
         if (sender instanceof Player) {
             Player player = (Player) sender;
             AdventureUtil.sendMessage(player, header);
@@ -147,7 +152,7 @@ public class PexoraCommand implements CommandExecutor {
             AdventureUtil.sendMessage(player, statusHelp);
             AdventureUtil.sendMessage(player, helpHelp);
         } else {
-            // Console sender
+            // Konsolensender
             sender.sendMessage(AdventureUtil.toLegacy(header));
             sender.sendMessage(AdventureUtil.toLegacy(reloadHelp));
             sender.sendMessage(AdventureUtil.toLegacy(statusHelp));

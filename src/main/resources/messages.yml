@@ -15,7 +15,7 @@ plugin-reloaded: "%prefix% <green>PexoraCore wurde neu geladen!"
 error-command-permission: "%prefix% <red>Du hast keine Berechtigung, diesen Befehl zu verwenden!"
 error-player-only: "%prefix% <red>Dieser Befehl kann nur von Spielern verwendet werden!"
 error-console-only: "%prefix% <red>Dieser Befehl kann nur von der Konsole verwendet werden!"
-error-invalid-command: "%prefix% <red>Ungültiger Befehl! Verwende <yellow>/pexora help</yellow> für eine Liste der Befehle."
+error-invalid-command: "%prefix% <red>Ungültiger Befehl! Verwende <yellow>/pexoracore help</yellow> für eine Liste der Befehle."
 error-module-not-found: "%prefix% <red>Modul <yellow>%module%</yellow> wurde nicht gefunden!"
 
 # Modul-Nachrichten
@@ -37,6 +37,6 @@ placeholderapi-found: "%prefix% <green>PlaceholderAPI erkannt und integriert!"
 
 # Hilfe-Nachrichten
 help-header: "%prefix% <yellow>PexoraCore Hilfe"
-help-command-reload: "%prefix% <yellow>/pexora reload</yellow> - Lädt das Plugin neu"
-help-command-status: "%prefix% <yellow>/pexora status</yellow> - Zeigt den Plugin-Status"
-help-command-help: "%prefix% <yellow>/pexora help</yellow> - Zeigt diese Hilfenachricht"
+help-command-reload: "%prefix% <yellow>/pexoracore reload</yellow> - Lädt das Plugin neu"
+help-command-status: "%prefix% <yellow>/pexoracore status</yellow> - Zeigt den Plugin-Status"
+help-command-help: "%prefix% <yellow>/pexoracore help</yellow> - Zeigt diese Hilfenachricht"

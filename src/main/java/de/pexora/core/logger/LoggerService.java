@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
 /**
- * Provides consistent logging functionality with proper formatting.
+ * Bietet einheitliche Protokollierungsfunktionalität mit passender Formatierung.
  */
 public class LoggerService {
 
@@ -37,36 +37,36 @@ public class LoggerService {
     }
     
     /**
-     * Logs an informational message
+     * Protokolliert eine Informationsmeldung
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void info(String message) {
         console.sendMessage(formatMessage(message, LogLevel.INFO));
     }
     
     /**
-     * Logs a warning message
+     * Protokolliert eine Warnmeldung
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void warn(String message) {
         console.sendMessage(formatMessage(message, LogLevel.WARN));
     }
     
     /**
-     * Logs an error message
+     * Protokolliert eine Fehlermeldung
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void error(String message) {
         console.sendMessage(formatMessage(message, LogLevel.ERROR));
     }
     
     /**
-     * Logs a debug message if debug mode is enabled
+     * Protokolliert eine Debug-Nachricht, wenn der Debug-Modus aktiviert ist
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void debug(String message) {
         if (plugin.getCoreConfig() != null && plugin.getCoreConfig().isDebugMode()) {
@@ -75,11 +75,11 @@ public class LoggerService {
     }
     
     /**
-     * Formats a message with the appropriate prefix and color
+     * Formatiert eine Nachricht mit dem entsprechenden Präfix und der passenden Farbe
      * 
-     * @param message The message to format
-     * @param level The log level
-     * @return The formatted message
+     * @param message Die zu formatierende Nachricht
+     * @param level Das Log-Level
+     * @return Die formatierte Nachricht
      */
     private String formatMessage(String message, LogLevel level) {
         String prefix;
@@ -107,7 +107,7 @@ public class LoggerService {
     }
     
     /**
-     * Log levels for different message types
+     * Log-Level für verschiedene Nachrichtentypen
      */
     public enum LogLevel {
         INFO,

@@ -6,8 +6,9 @@ author: Pexora Development Team
 description: Kern-Plugin für das Pexora-Plugin-System
 softdepend: [PlaceholderAPI]
 commands:
-  pexora:
+  pexoracore:
     description: Hauptbefehl für PexoraCore
+    aliases: [pex]
     usage: /<command> [reload|status|help]
     permission: pexora.admin
 permissions:

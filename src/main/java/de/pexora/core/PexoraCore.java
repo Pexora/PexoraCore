@@ -41,10 +41,10 @@ public class PexoraCore extends JavaPlugin {
     public void onEnable() {
         instance = this;
         
-        // Create core directories
+        // Erstelle Hauptverzeichnisse
         createDirectories();
         
-        // Initialize components
+        // Initialisiere Komponenten
         this.loggerService = new LoggerService(this);
         
         // Zeige PEX-Logo in der Konsole
@@ -52,142 +52,142 @@ public class PexoraCore extends JavaPlugin {
         
         this.loggerService.info("PexoraCore wird initialisiert...");
         
-        // Load configurations
+        // Lade Konfigurationen
         this.coreConfig = new CoreConfig(this);
         this.messageConfig = new MessageConfig(this);
         
-        // Check for PlaceholderAPI
+        // Prüfe auf PlaceholderAPI
         checkPlaceholderAPI();
         
-        // Initialize status API
+        // Initialisiere Status-API
         this.statusAPI = new StatusAPI();
         
-        // Initialize plugin messaging channel
+        // Initialisiere Plugin-Messaging-Kanal
         this.pexoraChannel = new PexoraChannel(this);
         
-        // Initialize module loader
+        // Initialisiere Modul-Loader
         this.moduleLoader = new ModuleLoader(this);
         this.loggerService.info("Module wurden geladen: " + this.moduleLoader.getModules().size());
         
-        // Initialize API
+        // Initialisiere API
         PexoraAPI.initialize(this);
         
-        // Register commands
-        getCommand("pexora").setExecutor(new PexoraCommand(this));
+        // Registriere Befehle
+        getCommand("pexoracore").setExecutor(new PexoraCommand(this));
         
         this.loggerService.info("PexoraCore wurde erfolgreich aktiviert!");
     }
     
     @Override
     public void onDisable() {
-        this.loggerService.info("Disabling PexoraCore...");
+        this.loggerService.info("PexoraCore wird deaktiviert...");
         
-        // Unload modules
+        // Entlade alle Module
         if (this.moduleLoader != null) {
             this.moduleLoader.disableAllModules();
         }
         
-        // Unregister channel
+        // Deregistriere den Kommunikationskanal
         if (this.pexoraChannel != null) {
             this.pexoraChannel.unregister();
         }
         
-        this.loggerService.info("PexoraCore has been disabled!");
+        this.loggerService.info("PexoraCore wurde erfolgreich deaktiviert!");
         instance = null;
     }
     
     private void createDirectories() {
-        // Create main directory
+        // Erstelle Hauptverzeichnis
         if (!getDataFolder().exists() && !getDataFolder().mkdirs()) {
-            getLogger().warning("Failed to create plugin directory!");
+            getLogger().warning("Fehler beim Erstellen des Plugin-Verzeichnisses!");
         }
         
-        // Create modules directory
+        // Erstelle Module-Verzeichnis
         File modulesDir = new File(getDataFolder(), "modules");
         if (!modulesDir.exists() && !modulesDir.mkdirs()) {
-            getLogger().warning("Failed to create modules directory!");
+            getLogger().warning("Fehler beim Erstellen des Module-Verzeichnisses!");
         }
     }
     
     private void checkPlaceholderAPI() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             this.placeholderApiAvailable = true;
-            this.loggerService.info("PlaceholderAPI detected and hooked successfully!");
+            this.loggerService.info("PlaceholderAPI erkannt und erfolgreich eingebunden!");
         } else {
             this.placeholderApiAvailable = false;
-            this.loggerService.warn("PlaceholderAPI not detected. Some features may not work as expected.");
+            this.loggerService.warn("PlaceholderAPI nicht gefunden. Einige Funktionen werden möglicherweise nicht wie erwartet funktionieren.");
         }
     }
     
     /**
-     * Reloads all configurations and modules
+     * Lädt alle Konfigurationen und Module neu
      */
     public void reload() {
-        this.loggerService.info("Reloading PexoraCore...");
+        this.loggerService.info("PexoraCore wird neu geladen...");
         
-        // Reload configs
+        // Konfigurationen neu laden
         this.coreConfig.reload();
         this.messageConfig.reload();
         
-        // Reload modules if auto-reload is enabled
+        // Module neu laden, wenn Auto-Reload aktiviert ist
         if (this.coreConfig.isModuleAutoReload()) {
             this.moduleLoader.reloadAllModules();
         }
         
-        this.loggerService.info("PexoraCore has been reloaded!");
+        this.loggerService.info("PexoraCore wurde erfolgreich neu geladen!");
     }
 
     /**
-     * @return the instance of the plugin
+     * @return die Instanz des Plugins
      */
     public static PexoraCore getInstance() {
         return instance;
     }
     
     /**
-     * @return the logger service
+     * @return den Logger-Service
      */
     public LoggerService getLoggerService() {
         return loggerService;
     }
     
     /**
-     * @return the core configuration
+     * @return die Kern-Konfiguration
      */
     public CoreConfig getCoreConfig() {
         return coreConfig;
     }
     
     /**
-     * @return the message configuration
+     * @return die Nachrichten-Konfiguration
      */
     public MessageConfig getMessageConfig() {
         return messageConfig;
     }
     
     /**
-     * @return the module loader
+     * @return den Modul-Loader
      */
     public ModuleLoader getModuleLoader() {
         return moduleLoader;
     }
     
     /**
-     * @return the status API
+     * @return die Status-API
      */
     public StatusAPI getStatusAPI() {
         return statusAPI;
     }
     
     /**
-     * @return the Pexora channel
+     * @return den Pexora-Kommunikationskanal
      */
     public PexoraChannel getPexoraChannel() {
         return pexoraChannel;
     }
     
     /**
-     * @return whether PlaceholderAPI is available
+     * @return ob PlaceholderAPI verfügbar ist
      */
     public boolean isPlaceholderApiAvailable() {
         return placeholderApiAvailable;

@@ -186,50 +186,50 @@ public class ModuleLoader {
     }
     
     /**
-     * Loads a single module from a file
+     * Lädt ein einzelnes Modul aus einer Datei
      * 
-     * @param file The module file to load
-     * @throws InvalidPluginException If the plugin is invalid
-     * @throws InvalidDescriptionException If the plugin description is invalid
+     * @param file Die zu ladende Moduldatei
+     * @throws InvalidPluginException Wenn das Plugin ungültig ist
+     * @throws InvalidDescriptionException Wenn die Plugin-Beschreibung ungültig ist
      */
     public void loadModule(File file) throws InvalidPluginException, InvalidDescriptionException {
         if (core.getCoreConfig().isDebugMode()) {
-            core.getLoggerService().info("Attempting to load module: " + file.getName());
+            core.getLoggerService().info("Versuche Modul zu laden: " + file.getName());
         }
         
         Plugin plugin = pluginManager.loadPlugin(file);
         
         if (plugin == null) {
-            throw new InvalidPluginException("Failed to load plugin from file " + file.getName());
+            throw new InvalidPluginException("Konnte Plugin aus Datei " + file.getName() + " nicht laden");
         }
         
-        // Verify it's a JavaPlugin
+        // Überprüfen, ob es ein JavaPlugin ist
         if (!(plugin instanceof JavaPlugin)) {
             pluginManager.disablePlugin(plugin);
-            throw new InvalidPluginException("Plugin " + plugin.getName() + " is not a JavaPlugin!");
+            throw new InvalidPluginException("Plugin " + plugin.getName() + " ist kein JavaPlugin!");
         }
         
         JavaPlugin javaPlugin = (JavaPlugin) plugin;
         
-        // Check if plugin depends on PexoraCore
+        // Überprüfen, ob das Plugin PexoraCore als Abhängigkeit deklariert
         if (!hasPexoraDependency(javaPlugin)) {
-            core.getLoggerService().warn("Module " + javaPlugin.getName() + " doesn't declare PexoraCore as a dependency. This may cause issues.");
+            core.getLoggerService().warn("Modul " + javaPlugin.getName() + " deklariert PexoraCore nicht als Abhängigkeit. Dies kann zu Problemen führen.");
         }
         
-        // Check for Pexora prefix in name
+        // Überprüfen auf Pexora-Prefix im Namen
         if (!javaPlugin.getName().startsWith("Pexora")) {
-            core.getLoggerService().warn("Module " + javaPlugin.getName() + " doesn't follow the naming convention (Pexora*).");
+            core.getLoggerService().warn("Modul " + javaPlugin.getName() + " folgt nicht der Namenskonvention (Pexora*).");
         }
         
-        // Enable the plugin
+        // Plugin aktivieren
         try {
             pluginManager.enablePlugin(javaPlugin);
             loadedModules.put(javaPlugin.getName(), javaPlugin);
             core.getStatusAPI().registerModule(javaPlugin.getName(), true);
-            core.getLoggerService().info("Successfully loaded and enabled module: " + javaPlugin.getName() + " v" + javaPlugin.getDescription().getVersion());
+            core.getLoggerService().info("Modul erfolgreich geladen und aktiviert: " + javaPlugin.getName() + " v" + javaPlugin.getDescription().getVersion());
         } catch (Exception e) {
             core.getStatusAPI().registerModule(javaPlugin.getName(), false);
-            core.getLoggerService().error("Failed to enable module " + javaPlugin.getName() + ": " + e.getMessage());
+            core.getLoggerService().error("Fehler beim Aktivieren des Moduls " + javaPlugin.getName() + ": " + e.getMessage());
             if (core.getCoreConfig().isDebugMode()) {
                 e.printStackTrace();
             }
@@ -237,10 +237,10 @@ public class ModuleLoader {
     }
     
     /**
-     * Disables all loaded modules
+     * Deaktiviert alle geladenen Module
      */
     public void disableAllModules() {
-        core.getLoggerService().info("Disabling all modules...");
+        core.getLoggerService().info("Deaktiviere alle Module...");
         
         List<String> modules = new ArrayList<>(loadedModules.keySet());
         
@@ -249,9 +249,9 @@ public class ModuleLoader {
             try {
                 pluginManager.disablePlugin(module);
                 core.getStatusAPI().registerModule(moduleName, false);
-                core.getLoggerService().info("Disabled module: " + moduleName);
+                core.getLoggerService().info("Modul deaktiviert: " + moduleName);
             } catch (Exception e) {
-                core.getLoggerService().error("Error disabling module " + moduleName + ": " + e.getMessage());
+                core.getLoggerService().error("Fehler beim Deaktivieren des Moduls " + moduleName + ": " + e.getMessage());
             }
         }
         
@@ -259,30 +259,30 @@ public class ModuleLoader {
     }
     
     /**
-     * Reloads all modules
+     * Lädt alle Module neu
      */
     public void reloadAllModules() {
-        core.getLoggerService().info("Reloading all modules...");
+        core.getLoggerService().info("Lade alle Module neu...");
         
-        // Disable all modules
+        // Deaktiviere alle Module
         disableAllModules();
         
-        // Load all modules
+        // Lade alle Module
         loadModules();
     }
     
     /**
-     * @return A copy of the loaded modules map
+     * @return Eine Kopie der geladenen Module-Map
      */
     public Map<String, JavaPlugin> getModules() {
         return new HashMap<>(loadedModules);
     }
     
     /**
-     * Checks if a plugin depends on PexoraCore
+     * Prüft, ob ein Plugin von PexoraCore abhängig ist
      * 
-     * @param plugin The plugin to check
-     * @return True if the plugin depends on PexoraCore
+     * @param plugin Das zu prüfende Plugin
+     * @return True, wenn das Plugin von PexoraCore abhängig ist
      */
     private boolean hasPexoraDependency(JavaPlugin plugin) {
         List<String> dependencies = plugin.getDescription().getDepend();
@@ -293,19 +293,19 @@ public class ModuleLoader {
     }
     
     /**
-     * Gets a loaded module by name
+     * Gibt ein geladenes Modul anhand des Namens zurück
      * 
-     * @param name The name of the module
-     * @return The module, or null if not found
+     * @param name Der Name des Moduls
+     * @return Das Modul oder null, wenn nicht gefunden
      */
     public JavaPlugin getModule(String name) {
         return loadedModules.get(name);
     }
     
     /**
-     * Gets all loaded modules
+     * Gibt alle geladenen Module zurück
      * 
-     * @return A map of module names to module instances
+     * @return Eine Map mit Modulnamen zu Modul-Instanzen
      */
     public Map<String, JavaPlugin> getLoadedModules() {
         return new HashMap<>(loadedModules);

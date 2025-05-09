@@ -33,10 +33,10 @@ public class PexoraAPI {
     private final PexoraCore plugin;
     
     /**
-     * Initialize the API with the core plugin instance.
-     * Should only be called by PexoraCore itself.
+     * Initialisiert die API mit der Core-Plugin-Instanz.
+     * Sollte nur von PexoraCore selbst aufgerufen werden.
      * 
-     * @param plugin The PexoraCore plugin instance
+     * @param plugin Die PexoraCore-Plugin-Instanz
      */
     public static void initialize(PexoraCore plugin) {
         if (instance == null) {
@@ -45,13 +45,13 @@ public class PexoraAPI {
     }
     
     /**
-     * Gets the API instance.
+     * Gibt die API-Instanz zurück.
      * 
-     * @return The PexoraAPI instance
+     * @return Die PexoraAPI-Instanz
      */
     public static PexoraAPI get() {
         if (instance == null) {
-            throw new IllegalStateException("PexoraAPI has not been initialized yet!");
+            throw new IllegalStateException("PexoraAPI wurde noch nicht initialisiert!");
         }
         return instance;
     }
@@ -61,124 +61,124 @@ public class PexoraAPI {
     }
     
     /**
-     * @return The core plugin instance
+     * @return Die Core-Plugin-Instanz
      */
     public PexoraCore getPlugin() {
         return plugin;
     }
     
     /**
-     * @return The core configuration
+     * @return Die Kern-Konfiguration
      */
     public CoreConfig getCoreConfig() {
         return plugin.getCoreConfig();
     }
     
     /**
-     * @return The message configuration
+     * @return Die Nachrichten-Konfiguration
      */
     public MessageConfig getMessageConfig() {
         return plugin.getMessageConfig();
     }
     
     /**
-     * @return The logger service
+     * @return Den Logger-Service
      */
     public LoggerService getLoggerService() {
         return plugin.getLoggerService();
     }
     
     /**
-     * @return The module loader
+     * @return Den Modul-Loader
      */
     public ModuleLoader getModuleLoader() {
         return plugin.getModuleLoader();
     }
     
     /**
-     * @return Whether PlaceholderAPI is available
+     * @return Ob PlaceholderAPI verfügbar ist
      */
     public boolean isPlaceholderApiAvailable() {
         return plugin.isPlaceholderApiAvailable();
     }
     
     /**
-     * @return The status API containing module states
+     * @return Die Status-API mit Modulzuständen
      */
     public StatusAPI getStatusAPI() {
         return plugin.getStatusAPI();
     }
     
     /**
-     * Gets the status of all modules
+     * Gibt den Status aller Module zurück
      * 
-     * @return A map of module names to their enabled status
+     * @return Eine Map mit Modulnamen und ihrem Aktivierungsstatus
      */
     public Map<String, Boolean> getModuleStatus() {
         return plugin.getStatusAPI().getModuleStatus();
     }
     
     /**
-     * Gets the prefix component for messages
+     * Gibt die Prefix-Komponente für Nachrichten zurück
      * 
-     * @return The prefix component
+     * @return Die Prefix-Komponente
      */
     public Component getPrefixComponent() {
         return plugin.getMessageConfig().getPrefixComponent();
     }
     
     /**
-     * Gets a message from the message config and replaces placeholders
+     * Holt eine Nachricht aus der Nachrichtenkonfiguration und ersetzt Platzhalter
      * 
-     * @param key The message key
-     * @return The formatted message component
+     * @param key Der Nachrichtenschlüssel
+     * @return Die formatierte Nachrichtenkomponente
      */
     public Component getMessage(String key) {
         return plugin.getMessageConfig().getMessage(key);
     }
     
     /**
-     * Gets a message and replaces custom placeholders
+     * Holt eine Nachricht und ersetzt benutzerdefinierte Platzhalter
      * 
-     * @param key The message key
-     * @param placeholders The placeholders to replace (key, value pairs)
-     * @return The formatted message component
+     * @param key Der Nachrichtenschlüssel
+     * @param placeholders Die zu ersetzenden Platzhalter (Schlüssel-Wert-Paare)
+     * @return Die formatierte Nachrichtenkomponente
      */
     public Component getMessage(String key, String... placeholders) {
         return plugin.getMessageConfig().getMessage(key, placeholders);
     }
     
     /**
-     * Logs an info message through the logger service
+     * Protokolliert eine Info-Nachricht über den Logger-Service
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void info(String message) {
         plugin.getLoggerService().info(message);
     }
     
     /**
-     * Logs a warning message through the logger service
+     * Protokolliert eine Warnmeldung über den Logger-Service
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void warn(String message) {
         plugin.getLoggerService().warn(message);
     }
     
     /**
-     * Logs an error message through the logger service
+     * Protokolliert eine Fehlermeldung über den Logger-Service
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void error(String message) {
         plugin.getLoggerService().error(message);
     }
     
     /**
-     * Logs a debug message if debug mode is enabled
+     * Protokolliert eine Debug-Nachricht, wenn der Debug-Modus aktiviert ist
      * 
-     * @param message The message to log
+     * @param message Die zu protokollierende Nachricht
      */
     public void debug(String message) {
         if (plugin.getCoreConfig().isDebugMode()) {
