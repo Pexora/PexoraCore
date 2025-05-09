@@ -1,0 +1,39 @@
+# PexoraCore Konfiguration
+# Diese Datei enthält zentrale Einstellungen für das Core-System
+
+# Aktiviert detaillierte Debug-Ausgabe in der Konsole
+debug-mode: false
+
+# Module automatisch neu laden, wenn der Core neu geladen wird
+module-auto-reload: true
+
+# Datenbankeinstellungen (für zukünftige Verwendung)
+database:
+  enabled: false
+  host: localhost
+  port: 3306
+  name: pexora
+  user: root
+  password: ""
+
+# Modul-Einstellungen
+modules:
+  # Aktiviert die Erkennung von Nicht-Pexora-Modulen (ohne "Pexora"-Präfix)
+  allow-non-pexora-modules: true
+  
+  # Liste von Plugin-Namen, die als Module geladen werden sollen, auch wenn sie nicht mit "Pexora" beginnen
+  additional-modules:
+    - "MeinPlugin1"
+    - "MeinPlugin2"
+    
+  # Ignoriere die Namenskonvention (Pexora-Präfix) für alle Module
+  ignore-naming-convention: false
+
+  # Automatisches Kopieren von Plugins in das Modul-Verzeichnis aktivieren
+  # Wenn aktiviert, werden Plugins, die PexoraCore als Abhängigkeit haben,
+  # automatisch aus dem plugins-Verzeichnis in das modules-Verzeichnis kopiert
+  auto-copy-to-modules: false
+  
+  # Lösche alte Plugins im plugins-Verzeichnis, nachdem sie kopiert wurden
+  # Diese Einstellung ist nur wirksam, wenn auto-copy-to-modules aktiviert ist
+  delete-old-plugins: false

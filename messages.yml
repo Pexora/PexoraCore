@@ -1,0 +1,42 @@
+# PexoraCore Messages
+# This file contains all customizable messages
+
+# The prefix used for all messages
+# You can use MiniMessage format for formatting
+# https://docs.adventure.kyori.net/minimessage/format.html
+prefix: "<gradient:#ff55ff:#aa00ff>[PX]</gradient> "
+
+# General messages
+plugin-enabled: "%prefix% <green>PexoraCore has been enabled!"
+plugin-disabled: "%prefix% <red>PexoraCore has been disabled!"
+plugin-reloaded: "%prefix% <green>PexoraCore has been reloaded!"
+
+# Error messages
+error-command-permission: "%prefix% <red>You don't have permission to use this command!"
+error-player-only: "%prefix% <red>This command can only be used by players!"
+error-console-only: "%prefix% <red>This command can only be used from the console!"
+error-invalid-command: "%prefix% <red>Invalid command! Use <yellow>/pexora help</yellow> for a list of commands."
+error-module-not-found: "%prefix% <red>Module <yellow>%module%</yellow> was not found!"
+
+# Module messages
+module-loaded: "%prefix% <green>Module <yellow>%module%</yellow> has been loaded!"
+module-unloaded: "%prefix% <red>Module <yellow>%module%</yellow> has been unloaded!"
+module-reloaded: "%prefix% <green>Module <yellow>%module%</yellow> has been reloaded!"
+module-load-error: "%prefix% <red>Failed to load module <yellow>%module%</yellow>: %error%"
+
+# Status messages
+status-header: "%prefix% <yellow>PexoraCore Status"
+status-version: "%prefix% <yellow>Version: <green>%version%"
+status-modules: "%prefix% <yellow>Loaded Modules: <green>%count%"
+status-module-entry: "%prefix% <yellow>- %module%: %status%"
+status-placeholderapi: "%prefix% <yellow>PlaceholderAPI: %status%"
+
+# PlaceholderAPI messages
+placeholderapi-missing: "%prefix% <yellow>PlaceholderAPI is not installed. Some features may not work!"
+placeholderapi-found: "%prefix% <green>PlaceholderAPI detected and integrated!"
+
+# Help messages
+help-header: "%prefix% <yellow>PexoraCore Help"
+help-command-reload: "%prefix% <yellow>/pexora reload</yellow> - Reloads the plugin"
+help-command-status: "%prefix% <yellow>/pexora status</yellow> - Shows the plugin status"
+help-command-help: "%prefix% <yellow>/pexora help</yellow> - Shows this help message"

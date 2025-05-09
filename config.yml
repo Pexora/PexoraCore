@@ -1,0 +1,21 @@
+# PexoraCore Configuration
+# This file contains central settings for the core system
+
+# Enable detailed debug output in console
+debug-mode: false
+
+# Automatically reload modules when the core is reloaded
+module-auto-reload: true
+
+# Database settings (for future use)
+database:
+  enabled: false
+  host: localhost
+  port: 3306
+  name: pexora
+  user: root
+  password: ""
+
+# Module settings
+modules:
+  # Add any module-specific settings here

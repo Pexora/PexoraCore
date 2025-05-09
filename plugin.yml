@@ -1,0 +1,16 @@
+name: PexoraCore
+version: 1.0.0
+main: de.pexora.core.PexoraCore
+api-version: 1.16
+author: Pexora Development Team
+description: Core plugin for the Pexora plugin system
+softdepend: [PlaceholderAPI]
+commands:
+  pexora:
+    description: Main command for PexoraCore
+    usage: /<command> [reload|status|help]
+    permission: pexora.admin
+permissions:
+  pexora.admin:
+    description: Allows access to all PexoraCore commands
+    default: op
