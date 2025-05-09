@@ -2,7 +2,6 @@ package de.pexora.core.api.messaging;
 
 import de.pexora.core.util.AdventureUtil;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -10,93 +9,89 @@ import org.bukkit.entity.Player;
  * Diese Klasse stellt Methoden bereit, um formatierte Nachrichten an Spieler zu senden.
  */
 public class MessagingService {
-    
+
     /**
-     * Sendet eine Nachrichtenkomponente an einen Spieler
-     * 
-     * @param player Der Spieler, der die Nachricht erhalten soll
-     * @param component Die zu sendende Nachrichtenkomponente
+     * Konstruktor für den MessagingService
      */
-    public void sendMessage(Player player, Component component) {
-        // In der Implementierung wird die Adventure API verwendet
-        AdventureUtil.sendMessage(player, component);
+    public MessagingService() {
+        // Leerer Konstruktor
     }
     
     /**
-     * Sendet eine Textnachricht an einen Spieler
+     * Sendet eine Nachricht an einen Spieler
      * 
-     * @param player Der Spieler, der die Nachricht erhalten soll
-     * @param message Die zu sendende Textnachricht
+     * @param player Der Spieler, an den die Nachricht gesendet wird
+     * @param message Die zu sendende Nachricht als Component
+     */
+    public void sendMessage(Player player, Component message) {
+        AdventureUtil.sendMessage(player, message);
+    }
+    
+    /**
+     * Sendet eine Nachricht an einen Spieler
+     * 
+     * @param player Der Spieler, an den die Nachricht gesendet wird
+     * @param message Die zu sendende Nachricht als MiniMessage-String
      */
     public void sendMessage(Player player, String message) {
-        player.sendMessage(message);
+        AdventureUtil.sendMessage(player, message);
     }
     
     /**
-     * Sendet eine Nachricht an einen Spieler mit dem Plugin-Präfix
+     * Sendet eine ActionBar-Nachricht an einen Spieler
      * 
-     * @param player Der Spieler, der die Nachricht erhalten soll
-     * @param component Die zu sendende Nachrichtenkomponente
-     * @param usePrefix Ob der Plugin-Präfix verwendet werden soll
+     * @param player Der Spieler, an den die Nachricht gesendet wird
+     * @param message Die zu sendende Nachricht als Component
      */
-    public void sendMessage(Player player, Component component, boolean usePrefix) {
-        // In der Implementierung wird bei usePrefix=true das Plugin-Präfix vorangestellt
-        AdventureUtil.sendMessage(player, component);
+    public void sendActionBar(Player player, Component message) {
+        player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, 
+                net.md_5.bungee.api.chat.TextComponent.fromLegacyText(AdventureUtil.toLegacy(message)));
     }
     
     /**
-     * Sendet eine Nachricht an alle Spieler auf dem Server
+     * Sendet eine ActionBar-Nachricht an einen Spieler
      * 
-     * @param component Die zu sendende Nachrichtenkomponente
+     * @param player Der Spieler, an den die Nachricht gesendet wird
+     * @param message Die zu sendende Nachricht als MiniMessage-String
      */
-    public void broadcastMessage(Component component) {
-        // Konvertiere zu legacy-Format, damit die Bukkit-API es verarbeiten kann
-        String legacyMessage = AdventureUtil.toLegacy(component);
-        Bukkit.broadcastMessage(legacyMessage);
-    }
-    
-    /**
-     * Sendet eine Nachricht an alle Spieler mit einer bestimmten Berechtigung
-     * 
-     * @param component Die zu sendende Nachrichtenkomponente
-     * @param permission Die erforderliche Berechtigung
-     */
-    public void broadcastMessage(Component component, String permission) {
-        // Konvertiere zu legacy-Format, damit die Bukkit-API es verarbeiten kann
-        String legacyMessage = AdventureUtil.toLegacy(component);
-        Bukkit.broadcast(legacyMessage, permission);
-    }
-    
-    /**
-     * Sendet eine Aktionsleisten-Nachricht an einen Spieler
-     * 
-     * @param player Der Spieler, der die Nachricht erhalten soll
-     * @param component Die zu sendende Nachrichtenkomponente
-     */
-    public void sendActionBar(Player player, Component component) {
-        // In späteren Implementierungen mit vollständiger Adventure-API-Integration
-        // würde hier direkt die Adventure-API verwendet werden
-        // Für jetzt nutzen wir das Legacy-Format als Fallback
-        String legacyMessage = AdventureUtil.toLegacy(component);
-        player.sendMessage(legacyMessage);
+    public void sendActionBar(Player player, String message) {
+        sendActionBar(player, AdventureUtil.parse(message));
     }
     
     /**
      * Sendet eine Titel-Nachricht an einen Spieler
      * 
-     * @param player Der Spieler, der die Nachricht erhalten soll
-     * @param title Der Haupttitel
-     * @param subtitle Der Untertitel
+     * @param player Der Spieler, an den die Nachricht gesendet wird
+     * @param title Der Haupttitel als Component
+     * @param subtitle Der Untertitel als Component
      * @param fadeIn Die Einblendezeit in Ticks
      * @param stay Die Anzeigezeit in Ticks
      * @param fadeOut Die Ausblendezeit in Ticks
      */
-    public void sendTitle(Player player, Component title, Component subtitle, 
-                         int fadeIn, int stay, int fadeOut) {
-        // Konvertiere zu legacy-Format für Bukkit-API-Kompatibilität
-        String legacyTitle = AdventureUtil.toLegacy(title);
-        String legacySubtitle = AdventureUtil.toLegacy(subtitle);
-        
-        player.sendTitle(legacyTitle, legacySubtitle, fadeIn, stay, fadeOut);
+    public void sendTitle(Player player, Component title, Component subtitle, int fadeIn, int stay, int fadeOut) {
+        player.sendTitle(
+                AdventureUtil.toLegacy(title), 
+                AdventureUtil.toLegacy(subtitle), 
+                fadeIn, stay, fadeOut
+        );
+    }
+    
+    /**
+     * Sendet eine Titel-Nachricht an einen Spieler
+     * 
+     * @param player Der Spieler, an den die Nachricht gesendet wird
+     * @param title Der Haupttitel als MiniMessage-String
+     * @param subtitle Der Untertitel als MiniMessage-String
+     * @param fadeIn Die Einblendezeit in Ticks
+     * @param stay Die Anzeigezeit in Ticks
+     * @param fadeOut Die Ausblendezeit in Ticks
+     */
+    public void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        sendTitle(
+                player, 
+                AdventureUtil.parse(title), 
+                AdventureUtil.parse(subtitle), 
+                fadeIn, stay, fadeOut
+        );
     }
 }

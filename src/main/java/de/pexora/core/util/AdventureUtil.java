@@ -3,6 +3,8 @@ package de.pexora.core.util;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 /**
@@ -63,7 +65,9 @@ public class AdventureUtil {
      * @param component The Component to send
      */
     public static void sendMessage(Player player, Component component) {
-        player.sendMessage(toLegacy(component));
+        // Adventure-Komponente in einen String umwandeln und dann an den Spieler senden
+        String legacyText = toLegacy(component);
+        player.sendMessage(legacyText);
     }
     
     /**
@@ -73,7 +77,10 @@ public class AdventureUtil {
      * @param message The MiniMessage formatted string
      */
     public static void sendMessage(Player player, String message) {
-        player.sendMessage(toLegacy(parse(message)));
+        // MiniMessage-Text parsen, in Legacy-Text umwandeln und dann senden
+        Component component = parse(message);
+        String legacyText = toLegacy(component);
+        player.sendMessage(legacyText);
     }
     
     /**

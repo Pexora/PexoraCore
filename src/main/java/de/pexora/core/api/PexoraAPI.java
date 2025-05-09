@@ -1,6 +1,8 @@
 package de.pexora.core.api;
 
 import de.pexora.core.PexoraCore;
+import de.pexora.core.api.config.ConfigService;
+import de.pexora.core.api.messaging.MessagingService;
 import de.pexora.core.config.CoreConfig;
 import de.pexora.core.config.MessageConfig;
 import de.pexora.core.logger.LoggerService;
@@ -8,6 +10,7 @@ import de.pexora.core.module.ModuleLoader;
 import de.pexora.core.status.StatusAPI;
 import net.kyori.adventure.text.Component;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -184,5 +187,35 @@ public class PexoraAPI {
         if (plugin.getCoreConfig().isDebugMode()) {
             plugin.getLoggerService().info("[DEBUG] " + message);
         }
+    }
+    
+    /**
+     * Gibt einen neuen MessagingService zurück für Adventure-basierte Nachrichten
+     *
+     * @return Ein MessagingService für formatierte Spielernachrichten
+     */
+    public MessagingService getMessagingService() {
+        return new MessagingService();
+    }
+    
+    /**
+     * Erstellt einen neuen ConfigService für die angegebene Konfigurationsdatei
+     *
+     * @param configFile Die Konfigurationsdatei
+     * @return Ein ConfigService für die Datei
+     */
+    public ConfigService createConfigService(File configFile) {
+        return new ConfigService(configFile);
+    }
+    
+    /**
+     * Erstellt einen neuen ConfigService für eine Datei im Plugin-Verzeichnis
+     *
+     * @param fileName Der Dateiname (ohne Pfad)
+     * @return Ein ConfigService für die Datei
+     */
+    public ConfigService createConfigService(String fileName) {
+        File configFile = new File(plugin.getDataFolder(), fileName);
+        return new ConfigService(configFile);
     }
 }
